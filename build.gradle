@@ -83,6 +83,10 @@ task generateVersionFile {
 
 webpack.outputs.dir file('build/webpack')
 
+tasks.yarn_install {
+    args = ['--frozen-lockfile']
+  }
+
 yarn.dependsOn 'generateVersionFile'
 project.tasks.register('test') {
   dependsOn 'karma'
