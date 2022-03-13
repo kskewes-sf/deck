@@ -13,7 +13,6 @@ env:
 jobs:
   build:
     if: startsWith(github.repository, 'spinnaker/')
-    name: Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
