@@ -28,45 +28,21 @@ pull_request_rules:
         name: default
       label:
         add: ["auto merged"]
-  - name: Automatically self merge on CI success
+  - name: Automatically merge PRs from maintainers on CI success and review
     conditions:
       - base=master
       - status-success=build
       - "label=ready to merge"
-      - "label=self merge"
+      - "author=@oss-approvers"
     actions:
       queue:
         method: squash
         name: default
       label:
         add: ["auto merged"]
-  - name: Automatically rebase and merge on CI success and review
-    conditions:
-      - base=master
-      - status-success=build
-      - "label=ready to rebase"
-      - "approved-reviews-by=@oss-approvers"
-    actions:
-      queue:
-        method: rebase
-        name: default
-      label:
-        add: ["auto merged"]
-  - name: Automatically rebase and self merge on CI success
-    conditions:
-      - "label=ready to rebase"
-      - "label=self merge"
-      - base=master
-      - status-success=build
-    actions:
-      queue:
-        method: rebase
-        name: default
-      label:
-        add: ["auto merged"]
   - name: Automatically merge autobump PRs on CI success
     conditions:
-      - base=master
+      - base~=^(master|release-)
       - status-success=build
       - "label~=autobump-*"
       - "author:spinnakerbot"
@@ -78,7 +54,7 @@ pull_request_rules:
         add: ["auto merged"]
   - name: Request reviews for autobump PRs on CI failure
     conditions:
-      - base=master
+      - base~=^(master|release-)
       - status-failure=build
       - "label~=autobump-*"
       - base=master
